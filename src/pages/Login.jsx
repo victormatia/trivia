@@ -1,7 +1,11 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import logo from '../trivia.png';
+import fetchToken from '../services/fetch';
+import saveOnLocalStorage from '../services/localStorage';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
@@ -28,6 +32,13 @@ export default class Login extends Component {
 
   inputOnChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validateInputs());
+  };
+
+  handleClick = (event) => {
+    event.preventDefault();
+    const { history } = this.props;
+    saveOnLocalStorage(fetchToken());
+    history.push('/game');
   };
 
   render() {
@@ -67,6 +78,7 @@ export default class Login extends Component {
               data-testid="btn-play"
               disabled={ isDisabled }
               type="submit"
+              onClick={ this.handleClick }
             >
               Play
 
@@ -77,3 +89,11 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
+
+export default connect()(Login);
