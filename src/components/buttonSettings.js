@@ -17,7 +17,7 @@ class ButtonSettings extends Component {
   render() {
     return (
       <button
-        data-testid="login-submit-button"
+        data-testid="btn-settings"
         type="button"
         onClick={ this.pushConfigurações }
       >
