@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import fetchToken from '../services/fetch';
 import saveOnLocalStorage from '../services/localStorage';
+import ButtonSettings from '../components/buttonSettings';
 
 class Login extends Component {
   constructor() {
@@ -43,6 +44,7 @@ class Login extends Component {
 
   render() {
     const { email, userName, isDisabled } = this.state;
+    const { history } = this.props;
 
     return (
       <section>
@@ -83,6 +85,9 @@ class Login extends Component {
               Play
 
             </button>
+            <ButtonSettings
+              history={ history }
+            />
           </form>
         </div>
       </section>
