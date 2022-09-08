@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ButtonSettings from '../components/buttonSettings';
 import logo from '../trivia.png';
 
 export default class Login extends Component {
@@ -32,6 +34,7 @@ export default class Login extends Component {
 
   render() {
     const { email, userName, isDisabled } = this.state;
+    const { history } = this.props;
 
     return (
       <section>
@@ -71,9 +74,16 @@ export default class Login extends Component {
               Play
 
             </button>
+            <ButtonSettings
+              history={ history }
+            />
           </form>
         </div>
       </section>
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.any,
+}.isRequired;
