@@ -5,6 +5,7 @@ import logo from '../trivia.png';
 import fetchToken from '../services/fetch';
 import saveOnLocalStorage from '../services/localStorage';
 import ButtonSettings from '../components/buttonSettings';
+import { saveGravatarEmail } from '../redux/store/actions/saveGravatarEmail';
 
 class Login extends Component {
   constructor() {
@@ -20,9 +21,7 @@ class Login extends Component {
     const { email, userName } = this.state;
 
     const validateEmail = email.length > 0;
-    console.log(validateEmail);
     const validateUserName = userName.length > 0;
-    console.log(validateUserName);
 
     if (validateEmail && validateUserName) {
       this.setState({ isDisabled: false });
@@ -37,8 +36,11 @@ class Login extends Component {
 
   handleClick = (event) => {
     event.preventDefault();
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
+    const { email, userName } = this.state;
+
     saveOnLocalStorage(fetchToken());
+    dispatch(saveGravatarEmail(email, userName));
     history.push('/game');
   };
 
