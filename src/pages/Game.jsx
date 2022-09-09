@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { fetchAPIQuestions } from '../services/fetch';
 import { getTokenLocalStorage, removeTokenLocalStorage } from '../services/localStorage';
 import Header from '../components/Header';
+import { saveQuestionsAndAnswer } from '../redux/store/actions/saveQuestionsAndAnswer';
 
-export default class Game extends Component {
+class Game extends Component {
   async componentDidMount() {
     const token = await getTokenLocalStorage();
     const response = await fetchAPIQuestions(token);
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     const tres = 3;
     console.log(response);
     if (response.response_code === tres) {
@@ -42,7 +44,7 @@ export default class Game extends Component {
           incorrect_answers: response.results[4].incorrect_answers,
         },
       ];
-      console.log(questionsAndAnswer);
+      dispatch(saveQuestionsAndAnswer(questionsAndAnswer));
     }
   }
 
@@ -57,5 +59,14 @@ export default class Game extends Component {
 }
 
 Game.propTypes = {
+  dispatch: PropTypes.any,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
+
+Game.propTypes = {
   history: PropTypes.any,
 }.isRequired;
+
+export default connect()(Game);

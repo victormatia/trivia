@@ -1,4 +1,5 @@
 import { SAVE_GRAVATAR_EMAIL } from '../actions/saveGravatarEmail';
+import { SAVE_QUESTIONS_ANSWERS } from '../actions/saveQuestionsAndAnswer';
 
 const INITIAL_STATE = {
   name: '',
@@ -13,6 +14,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
     ...state,
     gravatarEmail: action.email,
     name: action.userName,
+  };
+  case SAVE_QUESTIONS_ANSWERS: return {
+    ...state,
+    questionsAndAnswer,
   };
 
   default: return state;
