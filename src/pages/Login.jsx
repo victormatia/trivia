@@ -5,6 +5,7 @@ import logo from '../trivia.png';
 import fetchToken from '../services/fetch';
 import saveOnLocalStorage from '../services/localStorage';
 import ButtonSettings from '../components/buttonSettings';
+import { saveGravatarEmail } from '../redux/store/actions/saveGravatarEmail';
 
 class Login extends Component {
   constructor() {
@@ -35,9 +36,11 @@ class Login extends Component {
 
   handleClick = async (event) => {
     event.preventDefault();
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
+    const { email, userName } = this.state;
     const fecth = await fetchToken();
     await saveOnLocalStorage(fecth);
+    dispatch(saveGravatarEmail(email, userName));
     await history.push('/game');
   };
 

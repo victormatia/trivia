@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { fetchAPIQuestions } from '../services/fetch';
 import { getTokenLocalStorage, removeTokenLocalStorage } from '../services/localStorage';
+import Header from '../components/Header';
 
 export default class Game extends Component {
   async componentDidMount() {
@@ -47,7 +48,10 @@ export default class Game extends Component {
 
   render() {
     return (
-      <section>Game</section>
+      <section>
+        <Header />
+        Game
+      </section>
     );
   }
 }
