@@ -4,10 +4,13 @@ const INITIAL_STATE = {
   score: '',
   gravatarEmail: '',
 };
+const test = 'test';
 
 const userReducer = (state = INITIAL_STATE, action) => {
-  console.log(action.type);
-  return state;
+  switch (action) {
+  case test: return action;
+  default: return state;
+  }
 };
 
 export default userReducer;
