@@ -20,9 +20,7 @@ class Login extends Component {
     const { email, userName } = this.state;
 
     const validateEmail = email.length > 0;
-    console.log(validateEmail);
     const validateUserName = userName.length > 0;
-    console.log(validateUserName);
 
     if (validateEmail && validateUserName) {
       this.setState({ isDisabled: false });
