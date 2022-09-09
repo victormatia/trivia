@@ -33,11 +33,12 @@ class Login extends Component {
     this.setState({ [name]: value }, () => this.validateInputs());
   };
 
-  handleClick = (event) => {
+  handleClick = async (event) => {
     event.preventDefault();
     const { history } = this.props;
-    saveOnLocalStorage(fetchToken());
-    history.push('/game');
+    const fecth = await fetchToken();
+    await saveOnLocalStorage(fecth);
+    await history.push('/game');
   };
 
   render() {

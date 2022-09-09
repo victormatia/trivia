@@ -4,7 +4,11 @@ export default async function saveOnLocalStorage(data) {
 }
 
 export async function getTokenLocalStorage() {
-  const data = await localStorage.getItem('token');
-  const response = data.JSON;
-  return response;
+  const data = localStorage.getItem('token');
+  return data;
+}
+
+export async function removeTokenLocalStorage() {
+  const data = localStorage.removeItem('token');
+  return data;
 }
