@@ -5,6 +5,7 @@ import { fetchAPIQuestions } from '../services/fetch';
 import { getTokenLocalStorage, removeTokenLocalStorage } from '../services/localStorage';
 import Header from '../components/Header';
 import { saveQuestionsAndAnswer } from '../redux/store/actions/saveQuestionsAndAnswer';
+import CardQuestion from '../components/CardQuestion';
 
 class Game extends Component {
   async componentDidMount() {
@@ -12,47 +13,27 @@ class Game extends Component {
     const response = await fetchAPIQuestions(token);
     const { history, dispatch } = this.props;
     const tres = 3;
-    console.log(response);
     if (response.response_code === tres) {
       await removeTokenLocalStorage();
       history.push('/');
     } else {
-      const questionsAndAnswer = [
-        {
-          question: response.results[0].question,
-          correct_answer: response.results[0].correct_answer,
-          incorrect_answers: response.results[0].incorrect_answers,
-        },
-        {
-          question: response.results[1].question,
-          correct_answer: response.results[1].correct_answer,
-          incorrect_answers: response.results[1].incorrect_answers,
-        },
-        {
-          question: response.results[2].question,
-          correct_answer: response.results[2].correct_answer,
-          incorrect_answers: response.results[2].incorrect_answers,
-        },
-        {
-          question: response.results[3].question,
-          correct_answer: response.results[3].correct_answer,
-          incorrect_answers: response.results[3].incorrect_answers,
-        },
-        {
-          question: response.results[4].question,
-          correct_answer: response.results[4].correct_answer,
-          incorrect_answers: response.results[4].incorrect_answers,
-        },
-      ];
-      dispatch(saveQuestionsAndAnswer(questionsAndAnswer));
+      const questionsAndAnswers = response.results.map((e) => ({
+        category: e.category,
+        question: e.question,
+        correct_answer: e.correct_answer,
+        incorrect_answers: e.incorrect_answers,
+      }));
+      dispatch(saveQuestionsAndAnswer(questionsAndAnswers));
     }
   }
 
   render() {
+    const { questionsAndAnswer } = this.props;
     return (
       <section>
         <Header />
         Game
+        { questionsAndAnswer.length && <CardQuestion />}
       </section>
     );
   }
@@ -65,8 +46,8 @@ Game.propTypes = {
   }),
 }.isRequired;
 
-Game.propTypes = {
-  history: PropTypes.any,
-}.isRequired;
+const mapStateToProps = ({ questionsAndAnswer }) => ({
+  questionsAndAnswer,
+});
 
-export default connect()(Game);
+export default connect(mapStateToProps)(Game);

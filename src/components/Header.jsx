@@ -6,7 +6,6 @@ import createGravatarEmail from '../services/gravatar';
 class Header extends Component {
   render() {
     const { userName, score, email } = this.props;
-    console.log(this.props);
     return (
       <header>
         <img

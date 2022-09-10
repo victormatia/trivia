@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   assertions: '',
   score: '0',
   gravatarEmail: '',
+  questionsAndAnswer: [],
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -17,7 +18,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
   };
   case SAVE_QUESTIONS_ANSWERS: return {
     ...state,
-    questionsAndAnswer,
+    questionsAndAnswer: action.questionsAndAnswer,
   };
 
   default: return state;

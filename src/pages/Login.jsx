@@ -41,7 +41,7 @@ class Login extends Component {
     const fecth = await fetchToken();
     await saveOnLocalStorage(fecth);
     dispatch(saveGravatarEmail(email, userName));
-    await history.push('/game');
+    history.push('/game');
   };
 
   render() {
