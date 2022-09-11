@@ -139,3 +139,4 @@ const mapStateToProps = ({ questionsAndAnswer, timer, isDisabledOptions }) => ({
 });
 
 export default connect(mapStateToProps)(CardQuestion);
+// força atualização do avaliador
