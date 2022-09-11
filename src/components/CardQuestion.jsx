@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Timer from './Timer';
 
 class CardQuestion extends Component {
   constructor() {
@@ -55,7 +56,8 @@ class CardQuestion extends Component {
 
     return (
       <section>
-        <section key={ currentQuestion.question }>
+        <Timer />
+        <section>
           <h4 data-testid="question-category">{ currentQuestion.category }</h4>
           <h5 data-testid="question-text">{ currentQuestion.question }</h5>
           <section data-testid="answer-options">
