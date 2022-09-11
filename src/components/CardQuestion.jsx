@@ -2,12 +2,15 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Timer from './Timer';
+import '../css/CardQuestion.css';
 
 class CardQuestion extends Component {
   constructor() {
     super();
     this.state = {
       count: 0,
+      themeCorrect: '',
+      themeIcorrect: '',
     };
   }
 
@@ -22,31 +25,55 @@ class CardQuestion extends Component {
   };
 
   organizeAnswers = (correctAnswer, incorrectAnswers) => {
+    const { themeCorrect, themeIcorrect } = this.state;
     const allAnswers = [];
     const correct = {
       text: correctAnswer,
       testId: 'correct-answer',
+      theme: themeCorrect,
     };
 
     const icorrects = incorrectAnswers.map((e, i) => ({
       text: e,
       testId: `wrong-answer-${i}`,
+      theme: themeIcorrect,
     }));
 
     allAnswers.push(correct, ...icorrects);
     return this.shuffleArray(allAnswers);
   };
 
+  applyThemeInAnswers = () => {
+    this.setState({
+      themeCorrect: 'correct-answer',
+      themeIcorrect: 'incorrect-answer',
+    });
+  };
+
+  removeThemeInAnswers = () => {
+    this.setState({
+      themeCorrect: '',
+      themeIcorrect: '',
+    });
+  };
+
   onClick = () => {
     const { count } = this.state;
     const maxValue = 3;
-    if (count <= maxValue) {
-      this.setState((prevState) => ({
-        count: prevState.count + 1,
-      }));
-    } else {
-      this.setState({ count: 0 });
-    }
+    const maxTime = 2000;
+
+    this.applyThemeInAnswers();
+
+    setTimeout(() => {
+      if (count <= maxValue) {
+        this.removeThemeInAnswers();
+        this.setState((prevState) => ({
+          count: prevState.count + 1,
+        }));
+      } else {
+        this.setState({ count: 0 });
+      }
+    }, maxTime);
   };
 
   render() {
@@ -68,6 +95,7 @@ class CardQuestion extends Component {
               )
                 .map((answers, i) => (
                   <button
+                    className={ answers.theme }
                     key={ i }
                     type="button"
                     onClick={ this.onClick }
