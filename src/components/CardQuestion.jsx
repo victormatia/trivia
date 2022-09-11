@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Timer from './Timer';
 import '../css/CardQuestion.css';
+import { startTimer } from '../redux/store/actions/startTimer';
+import { pauseTimer } from '../redux/store/actions/pauseTimer';
+import { stopTimer } from '../redux/store/actions/stopTimer';
 
 class CardQuestion extends Component {
   constructor() {
@@ -11,6 +15,11 @@ class CardQuestion extends Component {
       themeCorrect: '',
       themeIcorrect: '',
     };
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(startTimer());
   }
 
   shuffleArray = (arr) => {
@@ -58,17 +67,21 @@ class CardQuestion extends Component {
 
   onClick = () => {
     const { count } = this.state;
+    const { dispatch } = this.props;
     const maxValue = 3;
     const maxTime = 2000;
 
     this.applyThemeInAnswers();
+    dispatch(pauseTimer());
 
     setTimeout(() => {
       if (count <= maxValue) {
         this.removeThemeInAnswers();
+        dispatch(stopTimer());
         this.setState((prevState) => ({
           count: prevState.count + 1,
         }));
+        dispatch(startTimer());
       } else {
         this.setState({ count: 0 });
       }
@@ -76,13 +89,14 @@ class CardQuestion extends Component {
   };
 
   render() {
-    const { questions } = this.props;
+    const { questions, timer, isDisabledOptions } = this.props;
     const { count } = this.state;
     const currentQuestion = questions[count];
 
     return (
       <section>
-        <section key={ currentQuestion.question }>
+        { timer === 'start' || timer === 'pause' ? <Timer /> : null }
+        <section>
           <h4 data-testid="question-category">{ currentQuestion.category }</h4>
           <h5 data-testid="question-text">{ currentQuestion.question }</h5>
           <section data-testid="answer-options">
@@ -93,6 +107,7 @@ class CardQuestion extends Component {
               )
                 .map((answers, i) => (
                   <button
+                    disabled={ isDisabledOptions }
                     className={ answers.theme }
                     key={ i }
                     type="button"
@@ -117,8 +132,11 @@ CardQuestion.propTypes = {
   }),
 }.isRequired;
 
-const mapStateToProps = ({ questionsAndAnswer }) => ({
+const mapStateToProps = ({ questionsAndAnswer, timer, isDisabledOptions }) => ({
   questions: questionsAndAnswer,
+  timer,
+  isDisabledOptions,
 });
 
 export default connect(mapStateToProps)(CardQuestion);
+// força atualização do avaliador
