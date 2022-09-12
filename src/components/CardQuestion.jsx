@@ -14,6 +14,7 @@ class CardQuestion extends Component {
       count: 0,
       themeCorrect: '',
       themeIcorrect: '',
+      showNextButton: false,
     };
   }
 
@@ -66,31 +67,55 @@ class CardQuestion extends Component {
   };
 
   onClick = () => {
-    const { count } = this.state;
     const { dispatch } = this.props;
-    const maxValue = 3;
-    const maxTime = 2000;
-
     this.applyThemeInAnswers();
     dispatch(pauseTimer());
+    this.setState({ showNextButton: true });
 
-    setTimeout(() => {
-      if (count <= maxValue) {
-        this.removeThemeInAnswers();
-        dispatch(stopTimer());
-        this.setState((prevState) => ({
-          count: prevState.count + 1,
-        }));
+    // Muda para apróxima questão depois e 5s que o usuário respondeu --------
+
+    // const { count } = this.state;
+    // const maxValue = 3;
+    // const maxTime = 5000;
+
+    // setTimeout(() => {
+    //   if (count <= maxValue) {
+    //     this.removeThemeInAnswers();
+    //     dispatch(stopTimer());
+    //     this.setState((prevState) => ({
+    //       count: prevState.count + 1,
+    //     }));
+    //     dispatch(startTimer());
+    //   } else {
+    //     this.setState({ count: 0 });
+    //   }
+    // }, maxTime);
+
+    // -------------------------------------------------------------------------
+  };
+
+  skipQuestion = () => {
+    const { dispatch } = this.props;
+    const { count } = this.state;
+    const maxValue = 3;
+
+    if (count <= maxValue) {
+      this.removeThemeInAnswers();
+      dispatch(stopTimer());
+      this.setState((prevState) => {
         dispatch(startTimer());
-      } else {
-        this.setState({ count: 0 });
-      }
-    }, maxTime);
+        return {
+          count: prevState.count + 1,
+        };
+      });
+    } else {
+      this.setState({ count: 0 });
+    }
   };
 
   render() {
     const { questions, timer, isDisabledOptions } = this.props;
-    const { count } = this.state;
+    const { count, showNextButton } = this.state;
     const currentQuestion = questions[count];
 
     return (
@@ -120,6 +145,16 @@ class CardQuestion extends Component {
                 ))
             }
           </section>
+          { showNextButton && (
+            <button
+              onClick={ this.skipQuestion }
+              data-testid="btn-next"
+              type="button"
+            >
+              Next
+
+            </button>
+          ) }
         </section>
       </section>
     );
