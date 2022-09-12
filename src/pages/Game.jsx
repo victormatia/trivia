@@ -18,6 +18,7 @@ class Game extends Component {
       history.push('/');
     } else {
       const questionsAndAnswers = response.results.map((e) => ({
+        difficulty: e.difficulty,
         category: e.category,
         question: e.question,
         correct_answer: e.correct_answer,

@@ -6,14 +6,14 @@ import '../css/CardQuestion.css';
 import { startTimer } from '../redux/store/actions/startTimer';
 import { pauseTimer } from '../redux/store/actions/pauseTimer';
 import { stopTimer } from '../redux/store/actions/stopTimer';
+import { applyThemes } from '../redux/store/actions/applyThemes';
+import { removeThemes } from '../redux/store/actions/removeThemes';
 
 class CardQuestion extends Component {
   constructor() {
     super();
     this.state = {
       count: 0,
-      themeCorrect: '',
-      themeIcorrect: '',
       showNextButton: false,
     };
   }
@@ -34,7 +34,7 @@ class CardQuestion extends Component {
   };
 
   organizeAnswers = (correctAnswer, incorrectAnswers) => {
-    const { themeCorrect, themeIcorrect } = this.state;
+    const { themeCorrect, themeIncorrect } = this.props;
     const allAnswers = [];
     const correct = {
       text: correctAnswer,
@@ -45,30 +45,23 @@ class CardQuestion extends Component {
     const icorrects = incorrectAnswers.map((e, i) => ({
       text: e,
       testId: `wrong-answer-${i}`,
-      theme: themeIcorrect,
+      theme: themeIncorrect,
     }));
 
     allAnswers.push(correct, ...icorrects);
     return this.shuffleArray(allAnswers);
   };
 
-  applyThemeInAnswers = () => {
-    this.setState({
-      themeCorrect: 'correct-answer',
-      themeIcorrect: 'incorrect-answer',
-    });
-  };
-
-  removeThemeInAnswers = () => {
-    this.setState({
-      themeCorrect: '',
-      themeIcorrect: '',
-    });
-  };
-
-  onClick = () => {
+  applyThemeInAnswers = (target) => {
     const { dispatch } = this.props;
-    this.applyThemeInAnswers();
+    dispatch(applyThemes());
+
+    console.log(target.className);
+  };
+
+  onClick = ({ target }) => {
+    const { dispatch } = this.props;
+    this.applyThemeInAnswers(target);
     dispatch(pauseTimer());
     this.setState({ showNextButton: true });
 
@@ -100,7 +93,8 @@ class CardQuestion extends Component {
     const maxValue = 3;
 
     if (count <= maxValue) {
-      this.removeThemeInAnswers();
+      dispatch(removeThemes());
+      // this.removeThemeInAnswers();
       dispatch(stopTimer());
       this.setState((prevState) => {
         dispatch(startTimer());
@@ -132,6 +126,7 @@ class CardQuestion extends Component {
               )
                 .map((answers, i) => (
                   <button
+                    name={ currentQuestion.difficulty }
                     disabled={ isDisabledOptions }
                     className={ answers.theme }
                     key={ i }
@@ -167,10 +162,14 @@ CardQuestion.propTypes = {
   }),
 }.isRequired;
 
-const mapStateToProps = ({ questionsAndAnswer, timer, isDisabledOptions }) => ({
+const mapStateToProps = ({
+  questionsAndAnswer, timer, isDisabledOptions, themeIncorrect, themeCorrect,
+}) => ({
   questions: questionsAndAnswer,
   timer,
   isDisabledOptions,
+  themeIncorrect,
+  themeCorrect,
 });
 
 export default connect(mapStateToProps)(CardQuestion);
