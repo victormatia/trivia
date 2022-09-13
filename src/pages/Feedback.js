@@ -28,21 +28,20 @@ class Feedback extends Component {
             alt="Imagem de usuário"
           />
           <p data-testid="header-player-name">{ userName }</p>
-          <p data-testid="feedback-total-score">
-            Score:
-            {' '}
+          <p data-testid="header-score">
             { score }
-          </p>
-          <p data-testid="feedback-total-question">
-            Assertions:
-            {' '}
-            { assertions }
           </p>
         </header>
         <main>
           {assertions < three ? (
             <h5 data-testid="feedback-text">Could be better...</h5>)
             : (<h5 data-testid="feedback-text">Well Done!</h5>)}
+          <p data-testid="feedback-total-score">
+            { score }
+          </p>
+          <p data-testid="feedback-total-question">
+            { assertions }
+          </p>
         </main>
         <button
           type="button"
@@ -55,7 +54,7 @@ class Feedback extends Component {
         </button>
         <button
           type="button"
-          data-testid="btn-play-again"
+          data-testid="btn-ranking"
           name="play again"
           onClick={ () => this.ranking() }
         >
