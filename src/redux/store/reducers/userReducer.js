@@ -4,6 +4,7 @@ import { PAUSE_TIMER } from '../actions/pauseTimer';
 import { REMOVE_THEMES } from '../actions/removeThemes';
 import { SAVE_GRAVATAR_EMAIL } from '../actions/saveGravatarEmail';
 import { SAVE_QUESTIONS_ANSWERS } from '../actions/saveQuestionsAndAnswer';
+import { SKIP_QUESTION } from '../actions/skipQuestion';
 import { START_TIMER } from '../actions/startTimer';
 import { STOP_TIMER } from '../actions/stopTimer';
 import { UPDATE_TIME } from '../actions/updateTime';
@@ -16,6 +17,7 @@ const INITIAL_STATE = {
   timer: '',
   currentTime: 30,
   isDisabledOptions: false,
+  currentQuestion: 0,
   themeCorrect: '',
   themeIncorrect: '',
   questionsAndAnswer: [],
@@ -41,6 +43,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
     ...state, themeCorrect: 'correct-answer', themeIncorrect: 'incorrect-answer' };
   case REMOVE_THEMES: return {
     ...state, themeCorrect: '', themeIncorrect: '' };
+  case SKIP_QUESTION: return { ...state, currentQuestion: state.currentQuestion + 1 };
 
   default: return state;
   }
