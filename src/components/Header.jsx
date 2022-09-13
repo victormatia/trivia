@@ -26,7 +26,7 @@ Header.propTypes = {
   userName: PropTypes.any,
 }.isRequired;
 
-const mapStateToProps = ({ name, score, gravatarEmail }) => ({
+const mapStateToProps = ({ player: { name, score, gravatarEmail } }) => ({
   userName: name,
   score,
   email: gravatarEmail,

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { desableOptions } from '../redux/store/actions/disableOptions';
+import { updateTime } from '../redux/store/actions/updateTime';
 
 class Timer extends Component {
   constructor() {
@@ -13,13 +14,19 @@ class Timer extends Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+
     const seconds = 1000;
 
     const id = setInterval(() => {
-      this.setState((prev) => ({
-        id,
-        count: prev.count - 1,
-      }));
+      this.setState((prev) => {
+        const curr = prev.count - 1;
+        dispatch(updateTime(curr));
+        return {
+          id,
+          count: curr,
+        };
+      });
     }, seconds);
   }
 

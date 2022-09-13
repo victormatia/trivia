@@ -18,6 +18,7 @@ class Game extends Component {
       history.push('/');
     } else {
       const questionsAndAnswers = response.results.map((e) => ({
+        difficulty: e.difficulty,
         category: e.category,
         question: e.question,
         correct_answer: e.correct_answer,
@@ -27,13 +28,51 @@ class Game extends Component {
     }
   }
 
+  shuffleArray = (arr) => {
+    // Essa função foi baseada no exemplo dado no site hora de codar: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
+
+    for (let i = arr.length - 1; i > 0; i -= 1) {
+      const radomNumber = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[radomNumber]] = [arr[radomNumber], arr[i]];
+    }
+    return arr;
+  };
+
+  organizeAnswers = (correctAnswer, incorrectAnswers) => {
+    const allAnswers = [];
+    const correct = {
+      text: correctAnswer,
+      testId: 'correct-answer',
+      isCorrect: true,
+    };
+
+    const icorrects = incorrectAnswers.map((e, i) => ({
+      text: e,
+      testId: `wrong-answer-${i}`,
+      isCorrect: false,
+    }));
+
+    allAnswers.push(correct, ...icorrects);
+    return this.shuffleArray(allAnswers);
+  };
+
   render() {
-    const { questionsAndAnswer } = this.props;
+    const { questionsAndAnswer, currentQuestion, history } = this.props;
+    const question = questionsAndAnswer[currentQuestion];
     return (
       <section>
         <Header />
         Game
-        { questionsAndAnswer.length && <CardQuestion />}
+        { questionsAndAnswer.length
+          && <CardQuestion
+            category={ question.category }
+            difficulty={ question.difficulty }
+            question={ question.question }
+            answers={
+              this.organizeAnswers(question.correct_answer, question.incorrect_answers)
+            }
+            history={ history }
+          />}
       </section>
     );
   }
@@ -46,8 +85,9 @@ Game.propTypes = {
   }),
 }.isRequired;
 
-const mapStateToProps = ({ questionsAndAnswer }) => ({
+const mapStateToProps = ({ questionsAndAnswer, currentQuestion }) => ({
   questionsAndAnswer,
+  currentQuestion,
 });
 
 export default connect(mapStateToProps)(Game);
