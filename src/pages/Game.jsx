@@ -57,7 +57,7 @@ class Game extends Component {
   };
 
   render() {
-    const { questionsAndAnswer, currentQuestion } = this.props;
+    const { questionsAndAnswer, currentQuestion, history } = this.props;
     const question = questionsAndAnswer[currentQuestion];
     return (
       <section>
@@ -71,6 +71,7 @@ class Game extends Component {
             answers={
               this.organizeAnswers(question.correct_answer, question.incorrect_answers)
             }
+            history={ history }
           />}
       </section>
     );

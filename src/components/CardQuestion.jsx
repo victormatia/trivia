@@ -9,6 +9,8 @@ import { stopTimer } from '../redux/store/actions/stopTimer';
 import { applyThemes } from '../redux/store/actions/applyThemes';
 import { removeThemes } from '../redux/store/actions/removeThemes';
 import { skipQuestion } from '../redux/store/actions/skipQuestion';
+import { updateScore } from '../redux/store/actions/setScore';
+import { updateAssertions } from '../redux/store/actions/updateAssertions';
 
 class CardQuestion extends Component {
   constructor() {
@@ -23,16 +25,33 @@ class CardQuestion extends Component {
     dispatch(startTimer());
   }
 
-  onClick = async () => {
+  onClick = ({ target }) => {
     const { dispatch } = this.props;
     dispatch(applyThemes());
     dispatch(pauseTimer());
     this.setState({ showNextButton: true });
+
+    if (target.value === 'correct-answer') {
+      const { currentTime } = this.props;
+      let valorDifficulty = 0;
+      if (target.name === 'hard') {
+        const tres = 3;
+        valorDifficulty = tres;
+      } if (target.name === 'medium') {
+        valorDifficulty = 2;
+      } if (target.name === 'easy') {
+        valorDifficulty = 1;
+      }
+      const dez = 10;
+      const score = dez + (currentTime * valorDifficulty);
+      dispatch(updateScore(score));
+      dispatch(updateAssertions());
+    }
   };
 
   skipQuestion = async () => {
     const { dispatch, currentQuestion } = this.props;
-    const maxValue = 4;
+    const maxValue = 3;
 
     await dispatch(stopTimer());
     dispatch(removeThemes());
@@ -41,7 +60,8 @@ class CardQuestion extends Component {
       dispatch(skipQuestion());
       dispatch(startTimer());
     } else {
-      console.log(currentQuestion);
+      const { history } = this.props;
+      history.push('/feedback');
     }
   };
 
@@ -66,6 +86,7 @@ class CardQuestion extends Component {
                   key={ i }
                   type="button"
                   onClick={ this.onClick }
+                  value={ answer.testId }
                   data-testid={ answer.testId }
                 >
                   { answer.text }
@@ -96,13 +117,14 @@ CardQuestion.propTypes = {
   }),
 }.isRequired;
 
-const mapStateToProps = ({ timer, isDisabledOptions, themeCorrect,
+const mapStateToProps = ({ timer, currentTime, isDisabledOptions, themeCorrect,
   themeIncorrect, currentQuestion }) => ({
   timer,
   isDisabledOptions,
   themeCorrect,
   themeIncorrect,
   currentQuestion,
+  currentTime,
 });
 
 export default connect(mapStateToProps)(CardQuestion);
