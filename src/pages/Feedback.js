@@ -2,15 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import createGravatarEmail from '../services/gravatar';
+import { getPlayersLocalStorage, savePlayerLocalStorage } from '../services/localStorage';
+import { restartScore } from '../redux/store/actions/restartScore';
 
 class Feedback extends Component {
+  async componentDidMount() {
+    const { assertions, score, userName, email } = this.props;
+    const player = {
+      assertions,
+      score,
+      name: userName,
+      email,
+      picture: createGravatarEmail(email),
+    };
+    const ranking = await getPlayersLocalStorage();
+    console.log(ranking);
+    ranking.push(player);
+    savePlayerLocalStorage(ranking);
+  }
+
   playAgain = () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
+    dispatch(restartScore());
     history.push('/');
   };
 
   ranking = () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
+    dispatch(restartScore());
     history.push('/ranking');
   };
 

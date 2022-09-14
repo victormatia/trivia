@@ -2,6 +2,7 @@ import { APPLY_THEMES } from '../actions/applyThemes';
 import { DISABLE_OPTIONS } from '../actions/disableOptions';
 import { PAUSE_TIMER } from '../actions/pauseTimer';
 import { REMOVE_THEMES } from '../actions/removeThemes';
+import { RESTART_SCORE } from '../actions/restartScore';
 import { SAVE_GRAVATAR_EMAIL } from '../actions/saveGravatarEmail';
 import { SAVE_QUESTIONS_ANSWERS } from '../actions/saveQuestionsAndAnswer';
 import { SET_SCORE } from '../actions/setScore';
@@ -50,7 +51,13 @@ const userReducer = (state = INITIAL_STATE, action) => {
     ...state, themeCorrect: 'correct-answer', themeIncorrect: 'incorrect-answer' };
   case REMOVE_THEMES: return {
     ...state, themeCorrect: '', themeIncorrect: '' };
-  case SKIP_QUESTION: return { ...state, currentQuestion: state.currentQuestion + 1 };
+  case SKIP_QUESTION: {
+    const quatro = 4;
+    if (state.currentQuestion >= quatro) {
+      return { ...state, currentQuestion: 0 };
+    }
+    return { ...state, currentQuestion: state.currentQuestion + 1 };
+  }
   case SET_SCORE: return { ...state,
     player: {
       ...state.player,
@@ -61,7 +68,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
       ...state.player,
       assertions: state.player.assertions + 1 },
   };
-
+  case RESTART_SCORE: return { ...state,
+    player: {
+      ...state.player,
+      score: 0,
+      assertions: 0,
+    } };
   default: return state;
   }
 };
