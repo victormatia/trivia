@@ -1,8 +1,10 @@
 import React from "react";
-import App from "../../App";
+import App from "../App";
 import userEvent from "@testing-library/user-event";
 import { screen, waitFor } from "@testing-library/react";
-import { renderWithRouterAndRedux } from './renderWithRouterAndRedux';
+import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
+import mockResponseQuestions from "./helpers/mockResponseQuestions";
+import mockResponseToken from "./helpers/mockResponseToken";
 
 describe('Testes na página de login', () => {
     test('Testa Se a página de login é renderizada corretamente', () => {
@@ -36,6 +38,13 @@ describe('Testes na página de login', () => {
     
     test('Testa se o Botão play deveria gerar token e redirecionar a página', async () => {
         const { history } = renderWithRouterAndRedux(<App />);
+
+        global.fetch = jest.fn().mockResolvedValueOnce({
+          json: jest.fn().mockResolvedValue(mockResponseToken)
+        }).mockResolvedValueOnce({
+          json: jest.fn().mockResolvedValue(mockResponseQuestions)
+        })
+
 
         const nameInput = screen.getByTestId("input-player-name");
         const emailInput= screen.getByTestId("input-gravatar-email");

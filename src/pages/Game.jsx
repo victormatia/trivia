@@ -58,18 +58,20 @@ class Game extends Component {
 
   render() {
     const { questionsAndAnswer, currentQuestion, history } = this.props;
-    const question = questionsAndAnswer[currentQuestion];
+
     return (
       <section>
         <Header />
         Game
-        { questionsAndAnswer.length
+        { questionsAndAnswer?.length > 0
           && <CardQuestion
-            category={ question.category }
-            difficulty={ question.difficulty }
-            question={ question.question }
+            category={ questionsAndAnswer[currentQuestion].category }
+            difficulty={ questionsAndAnswer[currentQuestion].difficulty }
+            question={ questionsAndAnswer[currentQuestion].question }
             answers={
-              this.organizeAnswers(question.correct_answer, question.incorrect_answers)
+              this.organizeAnswers(questionsAndAnswer[currentQuestion]
+                .correct_answer, questionsAndAnswer[currentQuestion]
+                .incorrect_answers)
             }
             history={ history }
           />}
