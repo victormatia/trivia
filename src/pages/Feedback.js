@@ -21,6 +21,8 @@ class Feedback extends Component {
     savePlayerLocalStorage(ranking);
   }
 
+  // opa
+
   playAgain = () => {
     const { history, dispatch } = this.props;
     dispatch(restartScore());
