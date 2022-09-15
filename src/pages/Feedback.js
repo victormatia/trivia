@@ -16,7 +16,6 @@ class Feedback extends Component {
       picture: createGravatarEmail(email),
     };
     const ranking = await getPlayersLocalStorage();
-    console.log(ranking);
     ranking.push(player);
     savePlayerLocalStorage(ranking);
   }

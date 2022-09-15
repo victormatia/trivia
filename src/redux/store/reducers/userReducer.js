@@ -40,7 +40,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
   };
   case SAVE_QUESTIONS_ANSWERS: return {
     ...state,
-    questionsAndAnswer: action.questionsAndAnswer,
+    questionsAndAnswer: [...action.questionsAndAnswer],
   };
   case START_TIMER: return { ...state, timer: 'start' };
   case PAUSE_TIMER: return { ...state, timer: 'pause' };

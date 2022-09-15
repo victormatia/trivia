@@ -57,13 +57,14 @@ class Game extends Component {
   };
 
   render() {
-    const { questionsAndAnswer, currentQuestion, history } = this.props;
+    const { questionsAndAnswer = [], currentQuestion, history } = this.props;
+    console.log(questionsAndAnswer);
 
     return (
       <section>
         <Header />
         Game
-        { questionsAndAnswer?.length > 0
+        { questionsAndAnswer.length > 0
           && <CardQuestion
             category={ questionsAndAnswer[currentQuestion].category }
             difficulty={ questionsAndAnswer[currentQuestion].difficulty }

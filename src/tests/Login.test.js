@@ -2,7 +2,7 @@ import React from "react";
 import App from "../App";
 import userEvent from "@testing-library/user-event";
 import { screen, waitFor } from "@testing-library/react";
-import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
+import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import mockResponseQuestions from "./helpers/mockResponseQuestions";
 import mockResponseToken from "./helpers/mockResponseToken";
 

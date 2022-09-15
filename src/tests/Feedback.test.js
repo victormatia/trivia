@@ -3,7 +3,7 @@ import App from "../App";
 import Feedback from "../pages/Feedback";
 import userEvent from "@testing-library/user-event";
 import { screen } from '@testing-library/react';
-import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
+import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
 
 describe("Testes da página Feedback", () => {
