@@ -51,15 +51,17 @@ class CardQuestion extends Component {
 
   skipQuestion = async () => {
     const { dispatch, currentQuestion } = this.props;
-    const maxValue = 3;
+    const maxValue = 4;
     await dispatch(stopTimer());
     dispatch(removeThemes());
 
-    if (currentQuestion <= maxValue) {
+    if (currentQuestion < maxValue) {
       dispatch(skipQuestion());
       dispatch(startTimer());
+      console.log('proxima pergunta');
     } else {
       const { history } = this.props;
+      console.log('vai pra feedback');
       history.push('/feedback');
       dispatch(skipQuestion());
     }

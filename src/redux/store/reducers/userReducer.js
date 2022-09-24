@@ -47,16 +47,17 @@ const userReducer = (state = INITIAL_STATE, action) => {
   case REMOVE_THEMES: return {
     ...state, themeCorrect: '', themeIncorrect: '' };
   case SKIP_QUESTION: {
-    const quatro = 4;
-    if (state.currentQuestion >= quatro) {
-      return { ...state, currentQuestion: 0 };
+    const tres = 3;
+    if (state.currentQuestion <= tres) {
+      return { ...state, currentQuestion: state.currentQuestion + 1 };
     }
-    return { ...state, currentQuestion: state.currentQuestion + 1 };
+    return state;
   }
   case SET_SCORE: return { ...state, score: state.score + action.score };
   case SET_ASSERTIONS: return { ...state, assertions: state.assertions + 1 };
   case RESTART_SCORE: return {
     ...state,
+    currentQuestion: 0,
     score: 0,
     assertions: 0 };
   default: return state;
