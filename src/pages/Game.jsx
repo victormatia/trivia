@@ -88,7 +88,7 @@ Game.propTypes = {
   }),
 }.isRequired;
 
-const mapStateToProps = ({ questionsAndAnswer, currentQuestion }) => ({
+const mapStateToProps = ({ player: { questionsAndAnswer, currentQuestion } }) => ({
   questionsAndAnswer,
   currentQuestion,
 });

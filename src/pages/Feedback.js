@@ -86,11 +86,11 @@ class Feedback extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  assertions: state.player.assertions,
-  score: state.player.score,
-  userName: state.player.name,
-  email: state.player.gravatarEmail,
+const mapStateToProps = ({ player }) => ({
+  assertions: player.assertions,
+  score: player.score,
+  userName: player.name,
+  email: player.gravatarEmail,
 });
 
 Feedback.propTypes = {

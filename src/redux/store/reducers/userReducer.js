@@ -13,12 +13,10 @@ import { SET_ASSERTIONS } from '../actions/updateAssertions';
 import { UPDATE_TIME } from '../actions/updateTime';
 
 const INITIAL_STATE = {
-  player: {
-    name: '',
-    assertions: 0,
-    score: 0,
-    gravatarEmail: '',
-  },
+  name: '',
+  assertions: 0,
+  score: 0,
+  gravatarEmail: '',
   timer: '',
   currentTime: 30,
   isDisabledOptions: false,
@@ -32,11 +30,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case SAVE_GRAVATAR_EMAIL: return {
     ...state,
-    player: {
-      ...state.player,
-      gravatarEmail: action.email,
-      name: action.userName,
-    },
+    gravatarEmail: action.email,
+    name: action.userName,
   };
   case SAVE_QUESTIONS_ANSWERS: return {
     ...state,
@@ -58,22 +53,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
     }
     return { ...state, currentQuestion: state.currentQuestion + 1 };
   }
-  case SET_SCORE: return { ...state,
-    player: {
-      ...state.player,
-      score: state.player.score + action.score },
-  };
-  case SET_ASSERTIONS: return { ...state,
-    player: {
-      ...state.player,
-      assertions: state.player.assertions + 1 },
-  };
-  case RESTART_SCORE: return { ...state,
-    player: {
-      ...state.player,
-      score: 0,
-      assertions: 0,
-    } };
+  case SET_SCORE: return { ...state, score: state.score + action.score };
+  case SET_ASSERTIONS: return { ...state, assertions: state.assertions + 1 };
+  case RESTART_SCORE: return {
+    ...state,
+    score: 0,
+    assertions: 0 };
   default: return state;
   }
 };
