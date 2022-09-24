@@ -16,7 +16,6 @@ class Feedback extends Component {
       picture: createGravatarEmail(email),
     };
     const ranking = await getPlayersLocalStorage();
-    console.log(ranking);
     ranking.push(player);
     savePlayerLocalStorage(ranking);
   }
@@ -87,11 +86,11 @@ class Feedback extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  assertions: state.player.assertions,
-  score: state.player.score,
-  userName: state.player.name,
-  email: state.player.gravatarEmail,
+const mapStateToProps = ({ player }) => ({
+  assertions: player.assertions,
+  score: player.score,
+  userName: player.name,
+  email: player.gravatarEmail,
 });
 
 Feedback.propTypes = {

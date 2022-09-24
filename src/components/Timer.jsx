@@ -57,7 +57,7 @@ Timer.propTypes = {
   timer: PropTypes.string,
 }.isRequired;
 
-const mapStateToProps = ({ timer }) => ({
+const mapStateToProps = ({ player: { timer } }) => ({
   timer,
 });
 

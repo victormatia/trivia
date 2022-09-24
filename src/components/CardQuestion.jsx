@@ -51,7 +51,6 @@ class CardQuestion extends Component {
 
   skipQuestion = async () => {
     const { dispatch, currentQuestion } = this.props;
-    console.log(currentQuestion);
     const maxValue = 3;
     await dispatch(stopTimer());
     dispatch(removeThemes());
@@ -118,8 +117,8 @@ CardQuestion.propTypes = {
   }),
 }.isRequired;
 
-const mapStateToProps = ({ timer, currentTime, isDisabledOptions, themeCorrect,
-  themeIncorrect, currentQuestion }) => ({
+const mapStateToProps = ({ player: { timer, currentTime, isDisabledOptions, themeCorrect,
+  themeIncorrect, currentQuestion } }) => ({
   timer,
   isDisabledOptions,
   themeCorrect,

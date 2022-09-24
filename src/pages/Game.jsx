@@ -57,13 +57,13 @@ class Game extends Component {
   };
 
   render() {
-    const { questionsAndAnswer, currentQuestion, history } = this.props;
+    const { questionsAndAnswer = [], currentQuestion, history } = this.props;
 
     return (
       <section>
         <Header />
         Game
-        { questionsAndAnswer?.length > 0
+        { questionsAndAnswer.length > 0
           && <CardQuestion
             category={ questionsAndAnswer[currentQuestion].category }
             difficulty={ questionsAndAnswer[currentQuestion].difficulty }
@@ -87,7 +87,7 @@ Game.propTypes = {
   }),
 }.isRequired;
 
-const mapStateToProps = ({ questionsAndAnswer, currentQuestion }) => ({
+const mapStateToProps = ({ player: { questionsAndAnswer, currentQuestion } }) => ({
   questionsAndAnswer,
   currentQuestion,
 });
