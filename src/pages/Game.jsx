@@ -57,7 +57,7 @@ class Game extends Component {
   };
 
   render() {
-    const { questionsAndAnswer = [], currentQuestion, history } = this.props;
+    const { questionsAndAnswer, currentQuestion, history } = this.props;
 
     return (
       <section>
